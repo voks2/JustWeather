@@ -45,7 +45,7 @@
         console.log("Rendering weather:", weather);
         // Build the icon URL
         // const iconUrl = `https://openweathermap.org/img/wn/${weatherIcon}@2x.png`;
-        const iconUrl = `/assets/weather-icons/${weatherIcon}.svg`;
+        const iconUrl = `assets/weather-icons/${weatherIcon}.svg`;
         
         // Update the DOM
         cityName.innerHTML = `<span>${name}</span>`;
