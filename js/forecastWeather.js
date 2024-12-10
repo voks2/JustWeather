@@ -77,9 +77,11 @@
         const dayBox = document.createElement("div");
         dayBox.classList.add("forecast-day");
         dayBox.innerHTML = `
-          <p class="forecast-max">${summary.maxTemp}°C</p>
-          <p class="forecast-min">${summary.minTemp}°C</p>
-          <p class="summary">Condition: ${summary.weather}</p>
+          <div class="forecast-temp-cont">
+          <span class="forecast-max">${summary.maxTemp}<span class="temp-forecast-indicator-max">°C</span></span>
+          <span class="forecast-min">${summary.minTemp}<span class="temp-forecast-indicator-min">°C</span></span>
+          </div>
+          <p class="summary">${summary.weather}</p>
           <p class="summary">Precipitation: ${summary.maxPop}%</p>
         `;
         forecastContainer.appendChild(dayBox);

@@ -84,23 +84,6 @@ header {
   width: 200px;
 }
 
-.footer-item {
-  
-  color: var(--main-color);
-  font-size: 0.9rem;
-  margin-right:50px;
-}
-
-.footer-item a {
-    text-decoration:none;
-    color: var(--main-color); 
-    
-}
-
-
-.footer-item a:hover {
-    color: var(--accent-color);
-}
 
 .header-end-section {
   display:flex;
@@ -278,7 +261,7 @@ header {
 }
 
 .temp-main-indicator {
-    font-size: 0.6rem;
+    font-size: 3rem;
 }
 
 
@@ -290,16 +273,12 @@ header {
 
 
 
-
-
-
-
 /* Container for dates */
 .date-container {
   width: 100%;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
+  // margin-bottom: 10px;
   padding: 10px 0;
   //border-bottom: 2px solid #ddd;
 }
@@ -319,8 +298,8 @@ header {
     // border: 1px solid green;
     display: flex;
     justify-content: space-between;
-    gap: 10px;
-    padding: 10px 0;
+    //gap: 10px;
+    //padding: 10px 0;
 }
 
 .forecast-day {
@@ -333,8 +312,13 @@ header {
   // font-size: 0.9rem;
 }
 
+.forecast-temp-cont {
+    display: flex;
+    flex-direction: column;
+}
+
 .forecast-day p {
-  margin: 5px 0;
+  margin: 8px 0;
 }
 
 
@@ -343,8 +327,16 @@ header {
     font-weight: bold;
 }
 
+.temp-forecast-indicator-max {
+    font-size: 1rem;
+}
+
 .forecast-min {
     font-size: 1.4rem;
+}
+
+.temp-forecast-indicator-min {
+    font-size: 0.8rem;
 }
 
 /* Optional: Add some hover effects */
@@ -396,11 +388,30 @@ footer {
     // border-top: 0.5px solid;
     height: 80px;
     width: 1200px;
+    // border-top: 1px solid;
     border-color: var(--accent-color);
     background: var(--box-color);
     display: flex;
     justify-content: flex-end;
     align-items: center;
+}
+
+.footer-item {
+  
+    color: var(--main-color);
+    font-size: 0.9rem;
+    margin-right:50px;
+  }
+  
+.footer-item a {
+      text-decoration:none;
+      color: var(--main-color); 
+      
+}
+  
+  
+.footer-item a:hover {
+      color: var(--accent-color);
 }
 
 
