@@ -51,7 +51,7 @@
         cityName.innerHTML = `<span>${name}</span>`;
 
         mainBox.innerHTML = `
-            <div class="main-section">
+            
                 <div class="inner-section inner-section-one">
                     <div class="weather-icon">    
                         <img src="${iconUrl}" alt="${weatherDescription}">
@@ -71,7 +71,7 @@
                     <p><span class="desc">Pressure:</span> <span class="val">${pressure} hPa</span></p>
                     <p><span class="desc">Wind Speed:</span> <span class="val">${windSpeed} m/s</span></p>
                 </div>
-            </div>
+            
         `;
     }
 

@@ -44,17 +44,7 @@ body {
   flex-direction: column;
 }
 
-.container {
-    // border: solid red 1px;
-    width: 1200px;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    box-sizing: border-box; 
-    margin: auto;
-    padding-top: 50px;
-}
+/* ----------------------- HEADER  -------------------------------- */
 
 header {
   box-sizing: border-box;
@@ -69,6 +59,7 @@ header {
   
   padding: 20px 0;
   max-width: 1200px;
+  width: 100%; /* Ensures it spans the available space */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -158,6 +149,22 @@ header {
   margin-bottom: 20px;
 }
 
+
+/* ----------------------- CONTAINER -------------------------------- */
+
+.container {
+    // border: solid red 1px;
+    width: 1200px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box; 
+    margin: auto;
+    padding-top: 50px;
+}
+
+
 .box {
     width: 100%; /* Full width */
     height: 100%;
@@ -181,16 +188,16 @@ header {
 
 .main-box {
   // color: var(--text-color);
+  display: flex;
+  flex-direction: row;
+  //justify-content: space-between;
+  // border: 1px solid red;
+  margin-bottom: 30px;
 }
 
 
 
 .main-section {
-    display: flex;
-    flex-direction: row;
-    //justify-content: space-between;
-    // border: 1px solid red;
-    margin-bottom: 30px;
 }
 
 .inner-section {
@@ -465,12 +472,23 @@ p:not([class]) {
     .header-container {
         padding: 20px 20px;
         flex-direction: column;
-        align-items: none;
-        justify-content: none;
+        // align-items: none;
+        // justify-content: none;
     }
 
     #logo {
-        justify-content: center;
+        border-bottom: 0.5px solid var(--accent-color);
+        // margin-top:10px;
+        padding-bottom: 5px;
+        margin-bottom: 15px;
+    }
+
+    #logo a {
+        margin: auto;
+    }
+
+    #logo img {
+        margin-bottom: 3px;
     }
 
     .header-end-section {
@@ -479,7 +497,12 @@ p:not([class]) {
 
     .header-date-container {
         flex-direction: row;
-        justify-content: center
+        justify-content: center;
+        margin-bottom: 5px;
+    }
+
+    .weekday {
+        margin-right: 10px;
     }
 
     .search-container {
@@ -488,11 +511,23 @@ p:not([class]) {
 
 
 
+    .container {
+        padding: 50px 20px;
+    }
 
+    .box {
+        display: flex;
+        flex-direction: column;
+    }
 
+    .main-box {
+        
+        flex-direction: column;
+    }
 
+    .inner-section {
 
-
+    }
 
 
 
