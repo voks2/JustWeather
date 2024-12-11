@@ -289,22 +289,23 @@ header {
   
   // margin-bottom: 10px;
   padding: 10px 0;
-  border-bottom: 2px solid green;
+  // border-bottom: 2px solid green;
 }
 
 .date-item {
     flex: 1;
     // font-weight: bold;
     font-size: 1.2rem;
-    border: 1px solid blue;
+  //  border: 1px solid blue;
     text-align: left;
     // padding-left: 20px;
     color: var(--accent-color);
+    
 }
 
 /* Forecast container */
 .primary-forecast {
-    // border: 1px solid green;
+  //  border: 1px solid green;
     
     display: flex;
     justify-content: space-between;
@@ -315,7 +316,7 @@ header {
 .forecast-day {
   flex: 1;
   // padding: 10px;
-  border: 1px solid red;
+  // border: 1px solid red;
   // border-radius: 5px;
   // box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   text-align: left;
@@ -325,6 +326,7 @@ header {
 .forecast-temp-cont {
     display: flex;
     flex-direction: column;
+    //position: relative;
 }
 
 .forecast-day p {
@@ -495,6 +497,10 @@ p:not([class]) {
         margin-bottom: 3px;
     }
 
+    #logo span {
+      font-size: 0.9rem;
+    }
+
     .header-end-section {
         flex-direction: column;
     }
@@ -569,7 +575,8 @@ p:not([class]) {
         display:flex;
         flex-direction: row;
         width: 100%;
-        border: 1px dashed purple;
+      //  border: 1px dashed purple;
+        padding: 0 20px;
     }
 
     .date-container {
@@ -582,7 +589,7 @@ p:not([class]) {
     
 
     .date-item {
-        
+        margin-top: 20px;
         font-size: 1rem;
     }
 
@@ -595,6 +602,39 @@ p:not([class]) {
 
     }
 
+    .forecast-day {
+      margin-top: 20px;
+    }
+
+    .forecast-temp-cont {
+      flex-direction: row;
+      
+    }
+
+    .forecast-max {
+      
+      
+    }
+
+    .forecast-min {
+      margin-top: auto;
+      margin-left: 10px;
+      padding-bottom:1px;
+    }
    
+    .forecast-info-cont {
+      display: flex;
+      flex-direction: row;
+    }
+
+    .summary {
+      padding-right: 20px;
+      
+    }
+
+    footer {
+      justify-content: center;
+    }
+
 
 }

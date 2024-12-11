@@ -78,11 +78,13 @@
         dayBox.classList.add("forecast-day");
         dayBox.innerHTML = `
           <div class="forecast-temp-cont">
-          <span class="forecast-max">${summary.maxTemp}<span class="temp-forecast-indicator-max">°C</span></span>
-          <span class="forecast-min">${summary.minTemp}<span class="temp-forecast-indicator-min">°C</span></span>
+            <span class="forecast-max">${summary.maxTemp}<span class="temp-forecast-indicator-max">°C</span></span>
+            <span class="forecast-min">${summary.minTemp}<span class="temp-forecast-indicator-min">°C</span></span>
           </div>
-          <p class="summary">${summary.weather}</p>
-          <p class="summary">Precipitation: ${summary.maxPop}%</p>
+          <div class="forecast-info-cont">
+            <p class="summary">${summary.weather}</p>
+            <p class="summary">Precipitation: ${summary.maxPop}%</p>
+          </div>  
         `;
         forecastContainer.appendChild(dayBox);
       });
