@@ -68,7 +68,7 @@ header {
 .header-container {
   
   padding: 20px 0;
-  width: 1200px;
+  max-width: 1200px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -463,27 +463,26 @@ p:not([class]) {
 @media (max-width: 768px ){ 
 
     .header-container {
-        display: flex;
-        flex-wrap: wrap; /* Allow children to wrap to new lines */
-        justify-content: space-between; /* Spread items horizontally */
-      }
-      
-      .header-container > :nth-child(1) {
-        order: 1; /* Place in the first row */
-        flex: 1 1 45%; /* Adjust width (e.g., 45% for spacing) */
-      }
-      
-      .header-container > :nth-child(2) {
-        order: 3; /* Place in the third row */
-        flex: 1 1 100%; /* Full width */
-      }
-      
-      .header-container > :nth-child(3) {
-        order: 2; /* Place in the first row */
-        flex: 1 1 45%; /* Adjust width */
-      }
-      
+        padding: 20px 20px;
+        
+    }
 
+    #logo {
+        justify-content: center;
+    }
+
+    .header-end-section {
+        flex-direction: column;
+    }
+
+    .header-date-container {
+        flex-direction: row;
+        justify-content: center
+    }
+
+    .search-container {
+        margin-left: 0;
+    }
 
 
 }
