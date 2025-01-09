@@ -23,8 +23,8 @@ jobs:
         # Debugging step to check if the secrets are passed correctly
       - name: Check secret availability
         run: |
-            echo "OPENWEATHER_API_KEY=$VITE_OPENWEATHER_API_KEY"
-            echo "HERE_API_KEY=$VITE_HERE_API_KEY"
+            echo "OPENWEATHER_API_KEY=${{ secrets.VITE_OPENWEATHER_API_KEY }}"
+            echo "HERE_API_KEY=${{ secrets.VITE_HERE_API_KEY }}"
 
       - name: Build project
         env:
