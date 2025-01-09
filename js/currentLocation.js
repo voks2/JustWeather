@@ -2,6 +2,18 @@ import { updateLocation } from './locationState.js';
 import { fetchWeather } from './currentWeather.js';
 import { fetchForecast } from './forecastWeather.js';
 
+
+// call geolocation function with the "current location" button
+const currentLocationItem = document.getElementById('current-location-item');
+  currentLocationItem.addEventListener('click', async () => {
+    try {  
+      await handleLocationPermission(); // Call the function to handle geolocation
+    } catch (error) {
+      console.error('Error handling current location:', error);
+    }
+});
+
+
 // Get current location using Geolocation API
 export async function getCurrentLocation() {
     return new Promise((resolve, reject) => {
@@ -43,7 +55,11 @@ export async function handleLocationPermission() {
         // Simply call getCurrentLocation; it already updates the location state
         const { lat, lon } = await getCurrentLocation(); 
         console.log('Location updated successfully:', { lat, lon });
-        // TEST Trigger weather and forecast fetching
+
+        // Set useCurrentLocation flag in localStorage
+        localStorage.setItem('useCurrentLocation', 'true');
+
+        // Fetch weather and forecast for the current location
         fetchWeather();
         fetchForecast();
     } catch (error) {

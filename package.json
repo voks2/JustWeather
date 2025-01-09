@@ -1,0 +1,21 @@
+{
+  "name": "justweather",
+  "version": "1.0.0",
+  "description": "Current weather and forecast for your city of choice",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.49.1",
+    "@types/node": "^22.10.5"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "vite": "^6.0.7"
+  }
+}

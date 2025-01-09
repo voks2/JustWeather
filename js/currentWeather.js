@@ -1,20 +1,22 @@
 
     import { locationState } from './locationState.js'; 
     import { openWeatherConfig } from './apiConfig.js';
+    import { updateTimestamps, isRateLimited } from './rateLimiter.js';
 
     const mainBox = document.querySelector('.main-box');
     const cityName = document.querySelector('.city-name');
     
     // Function to fetch weather data
+    // Function to fetch weather data
     export async function fetchWeather() {  
-        const { lat, lon } = locationState; // Access lat and lon from shared state
-        /*
-        if (!lat || !lon) {
-            console.error("Latitude and Longitude are not set:", locationState);
-            mainBox.innerHTML = `<p class="error">Location not set</p>`;
-            return;
+        if (isRateLimited()) {
+            console.log('Fetch weather blocked due to rate limiting.');
+            return;  // Exit early if rate-limited
         }
-        */
+        updateTimestamps();  // Record timestamp if fetching proceeds
+        
+        const { lat, lon } = locationState; // Access lat and lon from shared state
+        
         try {
             const response = await fetch(`${openWeatherConfig.endpoints.currentWeather}?lat=${lat}&lon=${lon}&appid=${openWeatherConfig.apiKey}&units=metric`);
             const data = await response.json();
@@ -24,7 +26,10 @@
             console.error("Error fetching weather data:", error);
             mainBox.innerHTML = `<p class="error">Unable to load weather data</p>`;
         }
-        }
+    }
+
+
+
 
 
     // Function to display weather data

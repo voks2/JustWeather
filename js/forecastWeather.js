@@ -1,5 +1,6 @@
     import { locationState } from './locationState.js'; 
     import { openWeatherConfig } from './apiConfig.js';
+    import { updateTimestamps, isRateLimited } from './rateLimiter.js';
 
     const forecastContainer = document.querySelector(".primary-forecast");
     const dateContainer = document.createElement("div");
@@ -7,20 +8,26 @@
     forecastContainer.parentElement.insertBefore(dateContainer, forecastContainer);
   
     // Fetch and display forecast
+    
     export async function fetchForecast() {
-      const { lat, lon } = locationState; // Access lat and lon from shared state
-      try {
-        const response = await fetch(
-          `${openWeatherConfig.endpoints.forecast}?lat=${lat}&lon=${lon}&appid=${openWeatherConfig.apiKey}&units=metric`
-        );
-        const data = await response.json();
-        const dailySummaries = processForecast(data);
-        displayForecast(dailySummaries);
-      } catch (error) {
-        console.error("Error fetching forecast data:", error);
-        forecastContainer.innerHTML = `<p class="error">Unable to load forecast data</p>`;
-      }
+        if (isRateLimited()) {
+            console.log('Fetch forecast blocked due to rate limiting.');
+            return;  // Exit early if rate-limited
+        }
+        
+        updateTimestamps();  // Record timestamp if fetching proceeds
+        const { lat, lon } = locationState;
+        try {
+            const response = await fetch(`${openWeatherConfig.endpoints.forecast}?lat=${lat}&lon=${lon}&appid=${openWeatherConfig.apiKey}&units=metric`);
+            const data = await response.json();
+            const dailySummaries = processForecast(data);
+            displayForecast(dailySummaries);
+        } catch (error) {
+            console.error("Error fetching forecast data:", error);
+            forecastContainer.innerHTML = `<p class="error">Unable to load forecast data</p>`;
+        }
     }
+
   
     // Process forecast data into daily summaries
     function processForecast(data) {

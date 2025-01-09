@@ -1,4 +1,12 @@
 /backup/
 notes.txt
 .prettierignore
+.env
 *.code-workspace
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/tests/
+/tests-examples/
