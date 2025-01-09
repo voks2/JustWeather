@@ -22,8 +22,8 @@ jobs:
 
       - name: Build project
         env:
-          OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}
-          HERE_API_KEY: ${{ secrets.HERE_API_KEY }}
+          VITE_OPENWEATHER_API_KEY: ${{ secrets.VITE_OPENWEATHER_API_KEY }}
+          VITE_HERE_API_KEY: ${{ secrets.VITE_HERE_API_KEY }}
         run: npm run build
 
       - name: Deploy to GitHub Pages
