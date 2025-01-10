@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
+    base: 'JustWeather',
     define: {
         'process.env': process.env,
       },    
