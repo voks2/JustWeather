@@ -1,37 +1,36 @@
-name: Deploy to GitHub Pages
+name: Deploy static content to Pages
 
 on:
   push:
-    branches:
-      - test-branch  # Change to your default branch if different
+    branches: ['test-branch']  # Adjust this to the branch you're using for deployment
+  workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: '18'
-
+          node-version: 20
+          cache: 'npm'
       - name: Install dependencies
-        run: npm install
-
+        run: npm ci
       - name: Set environment variables for build
         env:
           VITE_OPENWEATHER_API_KEY: ${{ secrets.VITE_OPENWEATHER_API_KEY }}
           VITE_HERE_API_KEY: ${{ secrets.VITE_HERE_API_KEY }}
-        run: |
-          echo "Environment variables set"
-        
-      - name: Build project
         run: npm run build
-
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist'  # Adjust to your build output directory
       - name: Deploy to GitHub Pages
+        id: deployment
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
