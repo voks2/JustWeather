@@ -37,4 +37,5 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist  # The directory where Vite outputs built files
-          clean: true
+          enable_jekyll: false  # Disable Jekyll for a plain static site
+          keep_files: false     # Optional: Ensures no old files persist if needed
