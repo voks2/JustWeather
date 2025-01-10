@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - test-branch  # Or the branch you're usina
+      - test-branch  # Or the branch you're usinas
 
 jobs:
   build-and-deploy:
