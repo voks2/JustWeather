@@ -3,11 +3,12 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main  # Change to your default branch if different
+      - main  # Trigger the workflow on pushes to the main branch
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -19,25 +20,20 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-    
-      - name: Check all environment variables
-        run: |
-          printenv
-        
-    # Debugging step to check if the secrets are passed correctly
-      - name: Check secret availability
-        run: |
-            echo "OPENWEATHER_API_KEY=${{ secrets.VITE_OPENWEATHER_API_KEY }}"
-            echo "HERE_API_KEY=${{ secrets.VITE_HERE_API_KEY }}"
 
-      - name: Build project
+      - name: Check environment variables
+        run: |
+          echo "VITE_OPENWEATHER_API_KEY=${{ secrets.VITE_OPENWEATHER_API_KEY }}"
+          echo "VITE_HERE_API_KEY=${{ secrets.VITE_HERE_API_KEY }}"
+
+      - name: Build the project using Vite
         env:
           VITE_OPENWEATHER_API_KEY: ${{ secrets.VITE_OPENWEATHER_API_KEY }}
           VITE_HERE_API_KEY: ${{ secrets.VITE_HERE_API_KEY }}
-        run: npm run build
+        run: npm run build  # This should trigger Vite to build your app
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist  # Adjust to your build output directory
+          publish_dir: ./dist  # The directory where Vite outputs built files
