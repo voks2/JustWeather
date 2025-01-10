@@ -13,7 +13,7 @@ jobs:
     
     runs-on: ubuntu-latest
     permissions:
-        contents: write  # This grants write access to contents
+        contents: write  # This grants write access to contentsss
         pull-requests: write  # This grants write access to PRs if neededaa
         
 
@@ -28,6 +28,13 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+      - name: Verify Secrets
+        env:
+            VITE_OPENWEATHER_API_KEY: ${{ secrets.VITE_OPENWEATHER_API_KEY }}
+            VITE_HERE_API_KEY: ${{ secrets.VITE_HERE_API_KEY }}
+        run: |
+            echo "VITE_OPENWEATHER_API_KEY: $VITE_OPENWEATHER_API_KEY"
+            echo "VITE_HERE_API_KEY: $VITE_HERE_API_KEY"
 
       - name: Build project
         env:
