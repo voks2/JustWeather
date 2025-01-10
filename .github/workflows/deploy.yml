@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - test-branch  # Trigger the workflow on pushes to the main branch
+      - test-branch  # Trigger the workflow on pushes - gde ga builduje kad si gore stavio "github actions" umesto "deploy from branch"
 
 jobs:
   build-and-deploy:
@@ -27,10 +27,10 @@ jobs:
           echo "VITE_HERE_API_KEY=${{ secrets.VITE_HERE_API_KEY }}"
 
       - name: Build the project using Vite
+        run: npm run build  # This should trigger Vite to build your app
         env:
           VITE_OPENWEATHER_API_KEY: ${{ secrets.VITE_OPENWEATHER_API_KEY }}
           VITE_HERE_API_KEY: ${{ secrets.VITE_HERE_API_KEY }}
-        run: npm run build  # This should trigger Vite to build your app
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
