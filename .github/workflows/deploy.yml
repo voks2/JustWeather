@@ -17,20 +17,15 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
-          node-version: '20'
+          node-version: '18'
 
       - name: Install dependencies
         run: npm install
-		
-	  - name: Check environment variables
-        run: |
-          echo "VITE_OPENWEATHER_API_KEY=${{ secrets.VITE_OPENWEATHER_API_KEY }}"
-          echo "VITE_HERE_API_KEY=${{ secrets.VITE_HERE_API_KEY }}"
 
       - name: Set environment variables for build
         env:
