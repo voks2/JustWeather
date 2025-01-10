@@ -1,3 +1,6 @@
+console.log('VITE_OPENWEATHER_API_KEY:', import.meta.env.VITE_OPENWEATHER_API_KEY);
+console.log('VITE_HERE_API_KEY:', import.meta.env.VITE_HERE_API_KEY);
+
 export const openWeatherConfig = {
   apiKey: import.meta.env.VITE_OPENWEATHER_API_KEY,  // Vite provides access to these variables
   endpoints: {
