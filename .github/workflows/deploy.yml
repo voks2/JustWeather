@@ -28,8 +28,8 @@ jobs:
       
       - name: Verify Secrets
         run: |
-            echo "VITE_OPENWEATHER_API_KEY: $VITE_OPENWEATHER_API_KEY"
-            echo "VITE_HERE_API_KEY: $VITE_HERE_API_KEY"
+            echo "VITE_OPENWEATHER_API_KEY: ${VITE_OPENWEATHER_API_KEY}"
+            echo "VITE_HERE_API_KEY: ${VITE_HERE_API_KEY}"
 
       - name: Build
         run: npm run build
