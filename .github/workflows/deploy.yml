@@ -23,7 +23,7 @@ jobs:
           node-version: '18'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci  # Or npm install if you prefer
       
       - name: Verify Secrets
         run: |
@@ -31,14 +31,14 @@ jobs:
           echo "VITE_HERE_API_KEY: ${VITE_HERE_API_KEY}"
 
       - name: Build
-        run: npm run build
+        run: npm run build  # This will use your "build" script from package.json
         env:
           VITE_OPENWEATHER_API_KEY: ${{ secrets.VITE_OPENWEATHER_API_KEY }}
           VITE_HERE_API_KEY: ${{ secrets.VITE_HERE_API_KEY }}
 
       - name: Detailed Build Logging
         run: |
-          vite build --log-level verbose
+          npx vite build --log-level verbose  # Use npx to find Vite in your local node_modules
         env:
           VITE_OPENWEATHER_API_KEY: ${{ secrets.VITE_OPENWEATHER_API_KEY }}
           VITE_HERE_API_KEY: ${{ secrets.VITE_HERE_API_KEY }}
