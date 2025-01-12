@@ -1,18 +1,17 @@
-name: Build project
+name: Build and Deploy Project
 
 on:
   push:
     branches:
-      - test-branch  # Or the branch you're usinas
+      - test-branch  # Or the branch you're using
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     
     permissions:
-        contents: write  # This grants write access to contentsss
-        pull-requests: write  # This grants write access to PRs if neededaa
-        
+      contents: write  # This grants write access to contents
+      pull-requests: write  # This grants write access to PRs if needed
 
     steps:
       - name: Checkout repository
@@ -28,14 +27,26 @@ jobs:
       
       - name: Verify Secrets
         run: |
-            echo "VITE_OPENWEATHER_API_KEY: ${VITE_OPENWEATHER_API_KEY}"
-            echo "VITE_HERE_API_KEY: ${VITE_HERE_API_KEY}"
+          echo "VITE_OPENWEATHER_API_KEY: ${VITE_OPENWEATHER_API_KEY}"
+          echo "VITE_HERE_API_KEY: ${VITE_HERE_API_KEY}"
 
       - name: Build
         run: npm run build
         env:
           VITE_OPENWEATHER_API_KEY: ${{ secrets.VITE_OPENWEATHER_API_KEY }}
           VITE_HERE_API_KEY: ${{ secrets.VITE_HERE_API_KEY }}
+
+      - name: Detailed Build Logging
+        run: |
+          vite build --log-level verbose
+        env:
+          VITE_OPENWEATHER_API_KEY: ${{ secrets.VITE_OPENWEATHER_API_KEY }}
+          VITE_HERE_API_KEY: ${{ secrets.VITE_HERE_API_KEY }}
+
+      - name: Replace API Keys in Built Files
+        run: |
+          find ./dist -type f -exec sed -i 's/PLACEHOLDER_OPENWEATHER_API_KEY/"${{ secrets.VITE_OPENWEATHER_API_KEY }}"/g' {} +
+          find ./dist -type f -exec sed -i 's/PLACEHOLDER_HERE_API_KEY/"${{ secrets.VITE_HERE_API_KEY }}"/g' {} +
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
