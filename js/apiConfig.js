@@ -14,7 +14,8 @@ export const openWeatherConfig = {
 };
 
 export const hereApiConfig = {
-  apiKey: import.meta.env.VITE_HERE_API_KEY,
+  // apiKey: import.meta.env.VITE_HERE_API_KEY,
+  apiKey: PLACEHOLDER_HERE_API_KEY,
   endpoints: {
     autosuggest: "https://autocomplete.search.hereapi.com/v1/autocomplete",
   },
