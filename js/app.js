@@ -4,6 +4,8 @@ import { initAutosuggest } from './locationAutosuggest.js';
 import { updateLocation, locationState } from './locationState.js';
 import { getLatLon } from './locationDetermination.js';
 import { handleLocationPermission } from './currentLocation.js';
+import { isRateLimited } from './rateLimiter.js'; // Import rate limiter function
+import { updateTimestamps } from './rateLimiter.js'; // Import rate limiter function
 
 // Initialize the app on DOM load
 document.addEventListener("DOMContentLoaded", () => {
@@ -17,34 +19,39 @@ document.addEventListener("DOMContentLoaded", () => {
     startAutoRefresh();
 });
 
-    // Initialize the app with saved or default location
-    async function initializeApp() {
-        try {
+// Initialize the app with saved or default location
+async function initializeApp() {
+    try {
+        const useCurrentLocation = localStorage.getItem('useCurrentLocation') === 'true';
+        if (useCurrentLocation) {
+            console.log("Using current location as per user preference.");
+            await handleLocationPermission();
+        } else {
             const { city, countryCode } = getSavedLocation();
             if (city && countryCode) {
-            await fetchAndRenderWeather(city, countryCode);
+                console.log(`Using saved location: ${city}, ${countryCode}`);
+                await fetchAndRenderWeather(city, countryCode);
             } else {
-            console.warn("No saved location found.");
+                console.warn("No saved location found. Please select a location.");
             }
-        } catch (error) {
-            console.error("Error initializing app:", error);
         }
-        }
+    } catch (error) {
+        console.error("Error initializing app:", error);
+    }
+}
 
 // Handle new location selection
 async function handleLocationChange(event) {
     try {
         const target = event.target;
-
-        // Handle the "current location" list item click
         if (target.id === 'current-location-item') {
             await handleLocationPermission();
-            return; // Exit after handling current location
+            return;
         }
-
-        // Handle other location suggestions
         const { city, countryCode } = getSavedLocation();
         if (city && countryCode) {
+            localStorage.setItem('useCurrentLocation', 'false');
+            console.log(`Manual location selected: ${city}, ${countryCode}`);
             await fetchAndRenderWeather(city, countryCode);
         } else {
             console.error("Invalid location selection.");
@@ -56,11 +63,17 @@ async function handleLocationChange(event) {
 
 // Fetch and render weather/forecast for a given location
 async function fetchAndRenderWeather(city, countryCode) {
+    if (isRateLimited()) {
+        console.log('Rate limit exceeded. Try again later.');
+        return;
+    }
+
+    updateTimestamps();  // Record the timestamp once per user action
+
     const location = await getLatLon(city, countryCode);
     if (location) {
         updateLocation(location.lat, location.lon, false);
-        fetchWeather();
-        fetchForecast();
+        await Promise.all([fetchWeather(), fetchForecast()]);  // Fetch both concurrently
     } else {
         console.error("Unable to determine latitude/longitude.");
     }
@@ -70,10 +83,14 @@ async function fetchAndRenderWeather(city, countryCode) {
 function startAutoRefresh() {
     setInterval(() => {
         if (locationState.lat && locationState.lon) {
-        fetchWeather();
-        fetchForecast();
+            if (!isRateLimited()) {
+                fetchWeather();
+                fetchForecast();
+            } else {
+                console.log('Skipping auto-refresh due to rate limiting.');
+            }
         } else {
-        console.warn("Location not set. Skipping auto-refresh.");
+            console.warn("Location not set. Skipping auto-refresh.");
         }
     }, 600000); // 10 minutes
 }

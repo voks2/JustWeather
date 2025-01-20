@@ -1,20 +1,31 @@
 
     import { locationState } from './locationState.js'; 
     import { openWeatherConfig } from './apiConfig.js';
+    import { updateTimestamps, isRateLimited } from './rateLimiter.js';
 
     const mainBox = document.querySelector('.main-box');
     const cityName = document.querySelector('.city-name');
     
+
+    // helper function at the top of the file
+    function encodeHTML(str) {
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+    }
+
+
+    // Function to fetch weather data
     // Function to fetch weather data
     export async function fetchWeather() {  
-        const { lat, lon } = locationState; // Access lat and lon from shared state
-        /*
-        if (!lat || !lon) {
-            console.error("Latitude and Longitude are not set:", locationState);
-            mainBox.innerHTML = `<p class="error">Location not set</p>`;
-            return;
+        if (isRateLimited()) {
+            console.log('Fetch weather blocked due to rate limiting.');
+            return;  // Exit early if rate-limited
         }
-        */
+        // updateTimestamps();  // Record timestamp if fetching proceeds
+        
+        const { lat, lon } = locationState; // Access lat and lon from shared state
+        
         try {
             const response = await fetch(`${openWeatherConfig.endpoints.currentWeather}?lat=${lat}&lon=${lon}&appid=${openWeatherConfig.apiKey}&units=metric`);
             const data = await response.json();
@@ -24,7 +35,10 @@
             console.error("Error fetching weather data:", error);
             mainBox.innerHTML = `<p class="error">Unable to load weather data</p>`;
         }
-        }
+    }
+
+
+
 
 
     // Function to display weather data
@@ -33,22 +47,23 @@
         const temperature = Math.round(main.temp);
         const tempMax = Math.round(main.temp_max);
         const tempMin = Math.round(main.temp_min);
-        const weatherMain = weatherDetails[0].main;
-        const weatherDescription = weatherDetails[0].description; // Detailed weather description
-        const weatherIcon = weatherDetails[0].icon; // Weather icon code
-        const humidity = main.humidity;
-        const pressure = main.pressure;
-        const windSpeed = wind.speed;
-        const cloudCoverage = clouds.all; // Cloud coverage percentage
-        const rainInfo = rain ? `Rainfall (last hour): ${rain["1h"]} mm` : ""; // Check if rain exists
-        
+        const weatherMain = encodeHTML(weatherDetails[0].main);
+        const weatherDescription = encodeHTML(weatherDetails[0].description); // Detailed weather description
+        const weatherIcon = encodeHTML(weatherDetails[0].icon); // Weather icon code
+        const humidity = encodeHTML(String(main.humidity));
+        const pressure = encodeHTML(String(main.pressure));
+        const windSpeed = encodeHTML(String(wind.speed));
+        const cloudCoverage = encodeHTML(String(clouds.all));
+        const rainInfo = rain ? encodeHTML(`Rainfall (last hour): ${rain["1h"]} mm`) : ""; // Check if rain exists
+            
         console.log("Rendering weather:", weather);
         // Build the icon URL
         // const iconUrl = `https://openweathermap.org/img/wn/${weatherIcon}@2x.png`;
         const iconUrl = `assets/weather-icons/${weatherIcon}.svg`;
         
         // Update the DOM
-        cityName.innerHTML = `<span>${name}</span>`;
+        // cityName.innerHTML = `<span>${name}</span>`;
+        cityName.innerHTML = `<span>${encodeHTML(name)}</span>`;
 
         mainBox.innerHTML = `
             
@@ -83,7 +98,8 @@
 
     // Format the day of the week
     const optionsDay = { weekday: 'long' };
-    const day = currentDate.toLocaleDateString('en-US', optionsDay);
+    // const day = currentDate.toLocaleDateString('en-US', optionsDay);
+    const day = encodeHTML(currentDate.toLocaleDateString('en-US', optionsDay));    
 
     // Format the full date
     const optionsDate = { month: 'long', day: 'numeric', year: 'numeric' };

@@ -1,5 +1,5 @@
 import { hereApiConfig } from './apiConfig.js';
-import { handleLocationPermission } from './currentLocation.js';
+// import { handleLocationPermission } from './currentLocation.js';
 
 // Debounce function to limit API calls
 let debounceTimer;
@@ -28,20 +28,12 @@ const renderSuggestions = (inputField, suggestionsList, suggestions) => {
   let currentIndex = -1; // To track keyboard navigation
 
   // Add "Current Location" as the first item
-  const currentLocationItem = document.createElement('li');
-  currentLocationItem.textContent = 'Current Location';
-  currentLocationItem.id = 'current-location-item'; // Assign a unique ID
-  currentLocationItem.classList.add('current-location'); // Optional class for styling
-  currentLocationItem.addEventListener('click', async () => {
-    try {
-      inputField.value = ''; // Clear input field
-      await handleLocationPermission(); // Call the function to handle geolocation
-      suggestionsList.innerHTML = ''; // Clear suggestions
-    } catch (error) {
-      console.error('Error handling current location:', error);
-    }
-  });
-  suggestionsList.appendChild(currentLocationItem);
+  // const currentLocationItem = document.createElement('li');
+  // currentLocationItem.textContent = 'Current Location';
+  // currentLocationItem.id = 'current-location-item'; // Assign a unique ID
+  // currentLocationItem.classList.add('current-location'); // Optional class for styling
+  
+  
 
   // Add filtered suggestions to the list
   suggestions
