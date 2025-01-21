@@ -16,23 +16,26 @@
 
   <!-- -->
 
-  <header>
-    <div class="header-container">
-      <div id="logo"> 
-        <a href="index.html"><img src="assets/just-weather-logo-2.png" alt="justweather-logo"></a>
-        <span>Current weather and forecast for your city of choice</span>
-      </div>
-      
-      <div class="header-end-section">
-        <div class="header-date-container"></div>
-        <div class="search-container">
-          <input type="text" id="cityInput" class="search-box" placeholder="Type a city..." autocomplete="off">
-          <ul id="suggestions"></ul>
+    <header>
+        <div class="header-container">
+            <div id="logo"> 
+                <a href="index.html"><img src="assets/just-weather-logo-2.png" alt="justweather-logo"></a>
+                <span>Current weather and forecast for your city of choice</span>
+            </div>
+        
+            <div class="header-end-section">
+                <div class="header-date-container"></div>
+                <div class="search-container">
+                    <input type="text" id="cityInput" class="search-box" placeholder="Type a city..." autocomplete="off">
+                    <ul id="suggestions"></ul>
+                </div>
+                <div class="current-location-button-container">
+                    <a id="current-location-item" class="search-button">Current location</a><span><img class="current-icon" src="/assets/current-location-icon-3.png" alt=""></span>
+                </div>    
+                
+            </div> 
         </div>
-        <input type="button" id="current-location-item" class="search-button" value="Current location">
-      </div> 
-    </div>
-  </header>
+    </header>
 
   <div class="container">
     <p id="cooldown-message"></p> 
@@ -53,7 +56,11 @@
   
   </div>
 
-  <footer><div class="footer-item">© 2025 JustWeather.</div><div class="footer-item"><a href="./about.html">About</a></div></footer>
+  <footer>
+    <div class="footer-container">
+        <div class="footer-item">© 2025 JustWeather.</div><div class="footer-item"><a href="./about.html">About project</a></div>
+    </div>
+  </footer>
 
 
 
