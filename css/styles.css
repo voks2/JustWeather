@@ -202,9 +202,10 @@ header {
 .section-title {
     border-bottom: 0.5px solid;
     color: var(--accent-color); 
-    border-color: var(--primary-color);
+    border-color: var(--accent-color);
     padding: 10px 0;
     margin-bottom: 20px;
+    font-size: 1.2rem;
 }
 
 
@@ -316,7 +317,7 @@ header {
 .date-item {
     flex: 1;
     // font-weight: bold;
-    font-size: 1.2rem;
+    font-size: 1rem;
   //  border: 1px solid blue;
     text-align: left;
     // padding-left: 20px;
@@ -384,9 +385,26 @@ header {
   width: 300px;
 }
 
+.search-icon{
+  position: absolute;
+  left: 10px; /* Distance from the left edge */
+  top: 50%;
+  transform: translateY(-50%);
+  height: 50%; /* Adjust icon size */
+  color: #888; /* Adjust icon color */
+  pointer-events: none; /* Makes sure the icon doesn't block input clicks */
+}
+
+.search-box {
+
+  padding: 10px 10px 10px 36px; /* Add left padding to make room for the icon */
+  box-sizing: border-box; /* Ensures padding and borders don't increase width */
+
+}
+
+
 #cityInput {
   
-  box-sizing: border-box; /* Ensures padding and borders don't increase width */
 }
 
 #suggestions {
