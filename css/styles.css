@@ -136,16 +136,15 @@ header {
   cursor: pointer;
 }
 
-/* 
+
 .current-location-button-container {
   background-color: transparent;
   display: flex;
   
   align-items: center;
-  padding-left: 20px;
-  border: none;
+  
 }
-
+/* 
 .current-icon {
     width: 30px;
     margin-left:20px;
