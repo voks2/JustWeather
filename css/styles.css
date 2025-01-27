@@ -136,7 +136,7 @@ header {
   cursor: pointer;
 }
 
-
+/* 
 .current-location-button-container {
   background-color: transparent;
   display: flex;
@@ -155,7 +155,44 @@ header {
   text-decoration: underline;
   cursor: pointer;
 }
+*/
 
+#current-location-item {
+  background-color: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  font-size: 16px; /* Matches your root font-size */
+  color: inherit; /* Inherits the text color */
+  padding-left: 20px;
+  cursor: pointer;
+  outline: none;
+  text-decoration: none;
+
+  /* border: 1px solid red;  */
+  height: 100%;
+}
+
+#current-location-item:hover .button-text {
+  text-decoration: underline;
+}
+
+.current-icon {
+  width: 30px;
+  margin-left: 20px;
+  transition: transform 0.2s ease;
+}
+
+#current-location-item:active .current-icon {
+  transform: scale(1.2);
+}
+
+#current-location-item:focus-visible {
+  outline: 2px dashed #007BFF; /* Optional for accessibility */
+  outline-offset: 4px;
+}
+
+/* -------  */
 
 .city-name {
   //text-align: left;
