@@ -32,7 +32,7 @@ async function initializeApp() {
                 console.log(`Using saved location: ${city}, ${countryCode}`);
                 await fetchAndRenderWeather(city, countryCode);
             } else {
-                console.warn("No saved location found. Please select a location.");
+                await fetchAndRenderWeather('Belgrade', 'RS');
             }
         }
     } catch (error) {
@@ -90,6 +90,7 @@ function startAutoRefresh() {
                 console.log('Skipping auto-refresh due to rate limiting.');
             }
         } else {
+            
             console.warn("Location not set. Skipping auto-refresh.");
         }
     }, 600000); // 10 minutes
