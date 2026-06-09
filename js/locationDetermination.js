@@ -24,7 +24,7 @@ export async function getLatLon(city, countryCode) {
     const data = await response.json();
     if (data.length > 0) {
       const { lat, lon } = data[0];
-      updateLocation(lat, lon, false); // Update shared state
+      updateLocation(lat, lon, false, city);
       return { lat, lon };
     } else {
       console.error("No geolocation data found!");

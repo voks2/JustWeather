@@ -194,16 +194,20 @@ header {
 /* -------  */
 
 .city-name {
-  //text-align: left;
-  // border: 1px solid red;
   width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 20px;
 }
 
-.city-name span {
-  display: inline-block; /* Ensures the span respects alignment */
-  font-weight: bold; /* Example of styling */
-  font-size:1.4rem;
-  margin-bottom: 20px;
+.city-name-text {
+  font-weight: bold;
+  font-size: 1.4rem;
+}
+
+.local-time {
+  font-size: 1rem;
 }
 
 
@@ -232,6 +236,8 @@ header {
     padding: 15px 25px 35px 25px; /* Padding inside the box */
     // margin-bottom: 20px; /* Spacing between containers */
     box-sizing: border-box; /* Ensures padding doesn't affect width */
+
+    border-radius: 20px
 }
 
 

@@ -52,14 +52,8 @@ export async function getCurrentLocation() {
 // MAIN FUNCTION to handle current location logic
 export async function handleLocationPermission() {
     try {
-        // Simply call getCurrentLocation; it already updates the location state
-        const { lat, lon } = await getCurrentLocation(); 
-        console.log('Location updated successfully:', { lat, lon });
-
-        // Set useCurrentLocation flag in localStorage
+        const { lat, lon } = await getCurrentLocation();
         localStorage.setItem('useCurrentLocation', 'true');
-
-        // Fetch weather and forecast for the current location
         fetchWeather();
         fetchForecast();
     } catch (error) {

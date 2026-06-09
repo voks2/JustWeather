@@ -1,93 +1,128 @@
 
-    import { locationState } from './locationState.js'; 
+    import { locationState } from './locationState.js';
     import { openWeatherConfig } from './apiConfig.js';
     import { updateTimestamps, isRateLimited } from './rateLimiter.js';
 
     const mainBox = document.querySelector('.main-box');
     const cityName = document.querySelector('.city-name');
-    
 
-    // helper function at the top of the file
     function encodeHTML(str) {
         const div = document.createElement('div');
         div.textContent = str;
         return div.innerHTML;
     }
 
+    function getLocalTimeString(timezoneOffset) {
+        const localDate = new Date(Date.now() + timezoneOffset * 1000);
+        const h = String(localDate.getUTCHours()).padStart(2, '0');
+        const m = String(localDate.getUTCMinutes()).padStart(2, '0');
+        return `${h}:${m}`;
+    }
 
-    // Function to fetch weather data
-    // Function to fetch weather data
-    export async function fetchWeather() {  
+    let localTimeInterval = null;
+    let cityNameEls = null;
+    let weatherEls = null;
+
+    function initCityNameStructure() {
+        cityName.innerHTML = `
+            <span class="city-name-text"></span>
+            <span class="local-time"></span>
+        `;
+        return {
+            text: cityName.querySelector('.city-name-text'),
+            time: cityName.querySelector('.local-time'),
+        };
+    }
+
+    function initWeatherStructure() {
+        mainBox.innerHTML = `
+            <div class="inner-section inner-section-one">
+                <div class="weather-icon">
+                    <img id="wx-icon" src="" alt="">
+                </div>
+                <div class="temperature-section">
+                    <p class="description"><span id="wx-main"></span> <br>(<span id="wx-desc"></span>)</p>
+                    <p class="temperature"><span id="wx-temp"></span><span class="temp-main-indicator">°C</span></p>
+                </div>
+            </div>
+            <div class="inner-section inner-section-two">
+                <p><span class="desc">Max Temp:</span> <span class="val" id="wx-max"></span></p>
+                <p><span class="desc">Min Temp:</span> <span class="val" id="wx-min"></span></p>
+                <p id="wx-rain-row" style="display:none"><span class="desc">Rain:</span> <span class="val" id="wx-rain-val"></span></p>
+            </div>
+            <div class="inner-section inner-section-three">
+                <p><span class="desc">Humidity:</span> <span class="val" id="wx-humidity"></span></p>
+                <p><span class="desc">Pressure:</span> <span class="val" id="wx-pressure"></span></p>
+                <p><span class="desc">Wind Speed:</span> <span class="val" id="wx-wind"></span></p>
+            </div>
+        `;
+        return {
+            icon:     document.getElementById('wx-icon'),
+            main:     document.getElementById('wx-main'),
+            desc:     document.getElementById('wx-desc'),
+            temp:     document.getElementById('wx-temp'),
+            max:      document.getElementById('wx-max'),
+            min:      document.getElementById('wx-min'),
+            rainRow:  document.getElementById('wx-rain-row'),
+            rainVal:  document.getElementById('wx-rain-val'),
+            humidity: document.getElementById('wx-humidity'),
+            pressure: document.getElementById('wx-pressure'),
+            wind:     document.getElementById('wx-wind'),
+        };
+    }
+
+    export async function fetchWeather() {
         if (isRateLimited()) {
             console.log('Fetch weather blocked due to rate limiting.');
-            return;  // Exit early if rate-limited
+            return;
         }
-        // updateTimestamps();  // Record timestamp if fetching proceeds
-        
-        const { lat, lon } = locationState; // Access lat and lon from shared state
-        
+
+        const { lat, lon } = locationState;
+
         try {
             const response = await fetch(`${openWeatherConfig.endpoints.currentWeather}?lat=${lat}&lon=${lon}&appid=${openWeatherConfig.apiKey}&units=metric`);
             const data = await response.json();
-            console.log(data)
             displayWeather(data);
         } catch (error) {
             console.error("Error fetching weather data:", error);
+            weatherEls = null;
             mainBox.innerHTML = `<p class="error">Unable to load weather data</p>`;
         }
     }
 
-
-
-
-
-    // Function to display weather data
     function displayWeather(weather) {
-        const { main, weather: weatherDetails, wind, clouds, name, rain } = weather;
-        const temperature = Math.round(main.temp);
-        const tempMax = Math.round(main.temp_max);
-        const tempMin = Math.round(main.temp_min);
-        const weatherMain = encodeHTML(weatherDetails[0].main);
-        const weatherDescription = encodeHTML(weatherDetails[0].description); // Detailed weather description
-        const weatherIcon = encodeHTML(weatherDetails[0].icon); // Weather icon code
-        const humidity = encodeHTML(String(main.humidity));
-        const pressure = encodeHTML(String(main.pressure));
-        const windSpeed = encodeHTML(String(wind.speed));
-        const cloudCoverage = encodeHTML(String(clouds.all));
-        const rainInfo = rain ? encodeHTML(`Rainfall (last hour): ${rain["1h"]} mm`) : ""; // Check if rain exists
-            
-        console.log("Rendering weather:", weather);
-        // Build the icon URL
-        // const iconUrl = `https://openweathermap.org/img/wn/${weatherIcon}@2x.png`;
-        const iconUrl = `assets/weather-icons/${weatherIcon}.svg`;
-        
-        // Update the DOM
-        // cityName.innerHTML = `<span>${name}</span>`;
-        cityName.innerHTML = `<span>${encodeHTML(name)}</span>`;
+        const { main, weather: weatherDetails, wind, name, rain, timezone } = weather;
+        const iconUrl = `assets/weather-icons/${encodeHTML(weatherDetails[0].icon)}.svg`;
 
-        mainBox.innerHTML = `
-            
-                <div class="inner-section inner-section-one">
-                    <div class="weather-icon">    
-                        <img src="${iconUrl}" alt="${weatherDescription}">
-                    </div>    
-                    <div class="temperature-section">
-                        <p class="description">${weatherMain} <br>(${weatherDescription})</p>
-                        <p class="temperature">${temperature}<span class="temp-main-indicator">°C</span></p>
-                    </div>
-                </div>
-                <div class="inner-section inner-section-two">
-                    <p><span class="desc">Max Temp:</span> <span class="val">${tempMax}°C</span></p>
-                    <p><span class="desc">Min Temp:</span> <span class="val">${tempMin}°C</span></p>
-                    ${rainInfo ? `<p><span class="desc">Rain:</span><span class="val">${rainInfo}</span></p>` : ""}
-                </div>
-                <div class="inner-section inner-section-three">
-                    <p><span class="desc">Humidity:</span> <span class="val">${humidity}%</span></p>
-                    <p><span class="desc">Pressure:</span> <span class="val">${pressure} hPa</span></p>
-                    <p><span class="desc">Wind Speed:</span> <span class="val">${windSpeed} m/s</span></p>
-                </div>
-            
-        `;
+        if (!cityNameEls) cityNameEls = initCityNameStructure();
+        cityNameEls.text.textContent = locationState.displayName || name;
+
+        if (localTimeInterval) clearInterval(localTimeInterval);
+        const updateClock = () => {
+            cityNameEls.time.textContent = `Local time: ${getLocalTimeString(timezone)}`;
+        };
+        updateClock();
+        localTimeInterval = setInterval(updateClock, 1000);
+
+        if (!weatherEls) weatherEls = initWeatherStructure();
+
+        weatherEls.icon.src = iconUrl;
+        weatherEls.icon.alt = weatherDetails[0].description;
+        weatherEls.main.textContent = weatherDetails[0].main;
+        weatherEls.desc.textContent = weatherDetails[0].description;
+        weatherEls.temp.textContent = Math.round(main.temp);
+        weatherEls.max.textContent = `${Math.round(main.temp_max)}°C`;
+        weatherEls.min.textContent = `${Math.round(main.temp_min)}°C`;
+        weatherEls.humidity.textContent = `${main.humidity}%`;
+        weatherEls.pressure.textContent = `${main.pressure} hPa`;
+        weatherEls.wind.textContent = `${wind.speed} m/s`;
+
+        if (rain) {
+            weatherEls.rainRow.style.display = '';
+            weatherEls.rainVal.textContent = `Rainfall (last hour): ${rain["1h"]} mm`;
+        } else {
+            weatherEls.rainRow.style.display = 'none';
+        }
     }
 
     // Select the date container
@@ -98,8 +133,7 @@
 
     // Format the day of the week
     const optionsDay = { weekday: 'long' };
-    // const day = currentDate.toLocaleDateString('en-US', optionsDay);
-    const day = encodeHTML(currentDate.toLocaleDateString('en-US', optionsDay));    
+    const day = encodeHTML(currentDate.toLocaleDateString('en-US', optionsDay));
 
     // Format the full date
     const optionsDate = { month: 'long', day: 'numeric', year: 'numeric' };

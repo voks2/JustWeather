@@ -1,18 +1,16 @@
 // locationState.js
 export let locationState = {
-    lat: null, // Latitude starts as null
-    lon: null, // Longitude starts as null
-    isCurrentLocation: false, // Flag to indicate if the location is the current device location
+    lat: null,
+    lon: null,
+    isCurrentLocation: false,
+    displayName: null,
 };
 
-// Function to update the state
-export function updateLocation(lat, lon, isCurrentLocation = false) {
+export function updateLocation(lat, lon, isCurrentLocation = false, displayName = null) {
     locationState.lat = lat;
     locationState.lon = lon;
-    console.log("Location updated:", lat, lon);
-    console.log("Location state updated:", locationState); // Debugging
-    locationState.isCurrentLocation = isCurrentLocation; // Properly set the flag
-    console.log("Location updated:", { lat, lon, isCurrentLocation });
+    locationState.isCurrentLocation = isCurrentLocation;
+    locationState.displayName = displayName;
 }
 
 
