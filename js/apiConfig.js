@@ -9,10 +9,3 @@ export const openWeatherConfig = {
     },
   };
   
-  export const hereApiConfig = {
-    apiKey: "Qg6O7FoLIXDgeg4Qt21swNg-yCp1owgHrH7q2IMh1Po", // Replace with your HERE API Key
-    endpoints: {
-      autosuggest: "https://autocomplete.search.hereapi.com/v1/autocomplete",
-    },
-  };
-  
