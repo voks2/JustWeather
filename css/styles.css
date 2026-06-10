@@ -1,6 +1,6 @@
 :root {
   --background-color: linear-gradient(to bottom,rgb(144, 190, 255),rgb(224, 237, 255)); /* Primary  color */
-  
+
   --primary-color: #eeeeee;
   --text-color: white; /* Accent color for highlights */
   --line-color: #535353;
@@ -12,6 +12,9 @@
   font-family: Arial;
   font-size: 16px;
   letter-spacing: -0.2px;
+
+  /* UI scale — 0.85 fits a 14" laptop at full zoom; 1 = full size */
+  --ui-scale: 0.85;
 }
 
 * {
@@ -21,7 +24,7 @@
 }
 
 html {
-  
+  zoom: var(--ui-scale);
   // line-height: 28px;
 }
 
